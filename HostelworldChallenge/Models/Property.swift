@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Property {
+struct Property: Identifiable {
     let id: String
     let name: String
     let city: City
