@@ -19,21 +19,20 @@ struct PropertyDetailView: View {
 
     // MARK: - Subviews
     private func content() -> some View {
-        VStack(alignment: .leading, spacing: .zero) {
+        VStack(alignment: .leading, spacing: 20) {
             photosCarousel()
 
             Text("Hostel")
                 .font(.subheadline)
                 .foregroundStyle(.primary).opacity(0.6)
-                .padding(.top, 20)
 
             header()
 
             location()
-                .padding(.top, 20)
+
+            directions()
 
             about()
-                .padding(.top, 20)
 
             Spacer()
         }
@@ -53,7 +52,6 @@ struct PropertyDetailView: View {
                 .font(.title2)
                 .foregroundStyle(.primary)
                 .opacity(0.9)
-                .padding(.top, 10)
 
             Spacer()
 
@@ -76,6 +74,21 @@ struct PropertyDetailView: View {
 
             Text("Stigbergsliden 10")
                 .font(.caption2)
+        }
+    }
+
+    private func directions() -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Label("Directions", systemImage: "arrow.trianglehead.turn.up.right.diamond")
+                .bold()
+                .font(.caption)
+                .foregroundStyle(.primary)
+                .opacity(0.8)
+
+            Text("Car: Drive towards 'centrum'. Follow the signs towards 'Fredrikshavn'. Chose exit 'Fiskhamnsmotet' and follow the sign to 'Majorna'. Turn left at the first traffic light to Karl Johansgatan and continue up the hill and down again, the street has now changed name to 'Stigbergsliden'. You find us on nr 10.")
+                .font(.caption)
+                .foregroundStyle(.primary)
+                .opacity(0.6)
         }
     }
 
