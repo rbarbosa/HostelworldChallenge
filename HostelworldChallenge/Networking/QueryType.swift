@@ -14,10 +14,10 @@ enum QueryType {
     var path: String {
         switch self {
         case .cityProperties(let cityId): 
-            "cities/\(cityId)/properties"
-        
+            "/cities/\(cityId)/properties/"
+
         case .property(let propertyId):
-            "properties/\(propertyId)"
+            "/properties/\(propertyId)"
         }
     }
 }

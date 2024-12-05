@@ -25,7 +25,6 @@ final class Networking {
     private enum APIURLComponents {
         static let scheme = "https"
         static let host = "private-anon-a79d5f524a-practical3.apiary-mock.com"
-        static let path = "/v1/"
     }
 
     func fetch(query: QueryType) async throws -> Data {
@@ -60,7 +59,7 @@ final class Networking {
         var urlComponents = URLComponents()
         urlComponents.scheme = APIURLComponents.scheme
         urlComponents.host = APIURLComponents.host
-        urlComponents.path = APIURLComponents.path + queryType.path
+        urlComponents.path = queryType.path
 
         return urlComponents.url
     }
