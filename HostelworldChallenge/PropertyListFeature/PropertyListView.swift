@@ -54,6 +54,7 @@ struct PropertyListView: View {
                     .foregroundStyle(.primary)
                     .opacity(0.6)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 }
