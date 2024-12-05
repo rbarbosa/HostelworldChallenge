@@ -22,7 +22,22 @@ struct PropertyListView: View {
         }
     }
 
+    @ViewBuilder
     private func content() -> some View {
+        if viewModel.isLoading {
+            VStack {
+                propertyCard(viewModel.emptyProperty)
+
+                Spacer()
+            }
+            .padding(.horizontal, 10)
+            .redacted(reason: .placeholder)
+        } else {
+            propertyList()
+        }
+    }
+
+    private func propertyList() -> some View {
         ScrollView {
             LazyVStack(spacing: 12) {
                 ForEach(viewModel.properties) { property in
@@ -36,14 +51,25 @@ struct PropertyListView: View {
     private func propertyCard(_ property: Property) -> some View {
         HStack(alignment: .top, spacing: 10) {
             AsyncImage(url: URL(string: property.images.first ?? "")) { phase in
-                if let image = phase.image {
+                switch phase {
+                case .empty:
+                    if viewModel.isLoading {
+                        Color.gray
+                            .opacity(0.4)
+                    } else {
+                        ProgressView()
+                    }
+
+                case .success(let image):
                     image
                         .resizable()
                         .scaledToFill()
-                } else if phase.error != nil {
+
+                case .failure(let error):
                     Label("There was an error", systemImage: "exclamationmark.icloud")
-                } else {
-                    ProgressView()
+
+                @unknown default:
+                    EmptyView()
                 }
             }
             .frame(width: 100, height: 100)
@@ -71,13 +97,20 @@ struct PropertyListView: View {
 
 // MARK: - Previews
 
-#Preview {
+#Preview("Success") {
     PropertyListView(
         viewModel: .init(
-            initialState: .init(
-                properties: []
-            ),
+            initialState: .init(),
             repository: .success
+        )
+    )
+}
+
+#Preview("Long loading") {
+    PropertyListView(
+        viewModel: .init(
+            initialState: .init(),
+            repository: .shortLoading
         )
     )
 }

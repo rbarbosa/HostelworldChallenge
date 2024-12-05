@@ -19,7 +19,16 @@ final class PropertyListViewModel {
     // MARK: - State
 
     struct State {
-        var properties: [Property]
+        var isLoading: Bool = false
+        var properties: [Property] = []
+        let emptyProperty: Property = .init(
+            id: "",
+            name: "Some random property",
+            city: .init(id: "", name: "", country: ""),
+            type: "Hostel",
+            overallRating: .init(numberOfRatings: 4, overall: 80),
+            images: []
+        )
     }
 
     // MARK: - Action
@@ -53,7 +62,11 @@ final class PropertyListViewModel {
     // MARK: - Private methods
 
     private func fetchProperties() {
+        state.isLoading = true
+
         Task { @MainActor in
+            defer { state.isLoading = false }
+
             do {
                 let response = try await repository.fetchCityProperties("1530")
                 state.properties = response.properties
