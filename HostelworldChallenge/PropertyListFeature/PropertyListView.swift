@@ -35,9 +35,19 @@ struct PropertyListView: View {
 
     private func propertyCard(_ property: Property) -> some View {
         HStack(alignment: .top, spacing: 10) {
-            Rectangle()
-                .frame(width: 100, height: 100)
-                .foregroundStyle(.gray)
+            AsyncImage(url: URL(string: property.images.first ?? "")) { phase in
+                if let image = phase.image {
+                    image
+                        .resizable()
+                        .scaledToFill()
+                } else if phase.error != nil {
+                    Label("There was an error", systemImage: "exclamationmark.icloud")
+                } else {
+                    ProgressView()
+                }
+            }
+            .frame(width: 100, height: 100)
+            .clipShape(RoundedRectangle(cornerRadius: 6))
 
             VStack(alignment: .leading) {
                 Text(property.name)

@@ -38,7 +38,9 @@ extension Property: Decodable {
         self.overallRating = try container.decode(Rating.self, forKey: .overallRating)
 
         let imageObjects = try container.decode([ImageObject].self, forKey: .images)
-        self.images = imageObjects.map { $0.prefix + $0.suffix }
+        self.images = imageObjects.map {
+            ($0.prefix + $0.suffix).replacingOccurrences(of: "http://", with: "https://")
+        }
     }
 }
 
@@ -61,7 +63,7 @@ extension Property {
             city: .mock,
             type: "Hostel",
             overallRating: .mock,
-            images: ["http://ucd.hwstatic.com/propertyimages/3/32849/7.jpg"]
+            images: ["https://ucd.hwstatic.com/propertyimages/3/32849/7.jpg"]
         )
     }
 }
