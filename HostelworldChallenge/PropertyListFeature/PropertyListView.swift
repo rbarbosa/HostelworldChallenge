@@ -65,7 +65,8 @@ struct PropertyListView: View {
         viewModel: .init(
             initialState: .init(
                 properties: []
-            )
+            ),
+            repository: .success
         )
     )
 }
