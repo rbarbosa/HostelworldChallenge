@@ -31,11 +31,16 @@ final class PropertyListViewModel {
     // MARK: - Properties
 
     private(set) var state: State
+    private let repository: PropertiesRepository
 
     // MARK: - Initialization
 
-    init(initialState: State) {
+    init(
+        initialState: State,
+        repository: PropertiesRepository
+    ) {
         self.state = initialState
+        self.repository = repository
     }
 
     func send(_ action: Action) {
@@ -46,8 +51,16 @@ final class PropertyListViewModel {
     }
 
     // MARK: - Private methods
+
     private func fetchProperties() {
-        state.properties = [.mock]
+        Task { @MainActor in
+            do {
+                let response = try await repository.fetchCityProperties("1530")
+                state.properties = response.properties
+            } catch {
+                print("Error fetching properties: \(error)")
+            }
+        }
     }
 }
 
