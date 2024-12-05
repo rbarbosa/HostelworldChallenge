@@ -16,6 +16,40 @@ struct Property: Identifiable {
     let images: [String]
 }
 
+// MARK: - Decodable conformance
+
+extension Property: Decodable {
+
+    enum CodingKeys: CodingKey {
+        case id
+        case name
+        case city
+        case type
+        case overallRating
+        case images
+    }
+
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(String.self, forKey: .id)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.city = try container.decode(City.self, forKey: .city)
+        self.type = try container.decode(String.self, forKey: .type)
+        self.overallRating = try container.decode(Rating.self, forKey: .overallRating)
+
+        let imageObjects = try container.decode([ImageObject].self, forKey: .images)
+        self.images = imageObjects.map { $0.prefix + $0.suffix }
+    }
+}
+
+// Helper struct to decode the image objects
+
+private struct ImageObject: Decodable {
+    let prefix: String
+    let suffix: String
+}
+
+
 // MARK: - Mocks
 
 #if DEBUG

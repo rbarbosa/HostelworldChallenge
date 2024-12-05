@@ -11,6 +11,10 @@ struct City {
     let country: String
 }
 
+// MARK: - Decodable conformance
+
+extension City: Decodable { }
+
 // MARK: - Mocks
 
 #if DEBUG
