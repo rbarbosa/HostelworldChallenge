@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import struct SwiftUI.Binding
 
 @dynamicMemberLookup
 @Observable
@@ -14,11 +15,13 @@ final class PropertyListViewModel {
     // MARK: - Destination
 
     enum Destination {
+        case details(PropertyDetails)
     }
 
     // MARK: - State
 
     struct State {
+        var destination: Destination? 
         var isLoading: Bool = false
         var properties: [Property] = []
         let emptyProperty: Property = .init(
@@ -35,6 +38,7 @@ final class PropertyListViewModel {
 
     enum Action {
         case onAppear
+        case onImageTap(Property)
     }
 
     // MARK: - Properties
@@ -56,7 +60,32 @@ final class PropertyListViewModel {
         switch action {
         case .onAppear:
             fetchProperties()
+
+        case .onImageTap(let property):
+            handlePropertySelection(property)
         }
+    }
+
+    // MARK: - Binding helper
+
+    func destinationBinding<T>(
+        for destinationType: @escaping (T) -> Destination
+    ) -> Binding<T?> {
+        Binding(
+            get: {
+                switch self.state.destination {
+                case .details(let model):
+                    return model as? T
+
+                case .none:
+                    return nil
+                }
+            },
+            set: { [weak self] newValue in
+                guard let self else { return }
+                self.state.destination = newValue.map(destinationType)
+            }
+        )
     }
 
     // MARK: - Private methods
@@ -72,6 +101,18 @@ final class PropertyListViewModel {
                 state.properties = response.properties
             } catch {
                 print("Error fetching properties: \(error)")
+            }
+        }
+    }
+
+    private func handlePropertySelection(_ property: Property) {
+        Task { @MainActor in
+            do {
+                let propertyDetails = try await repository.fetchPropertyDetails(property.id)
+                state.destination = .details(propertyDetails)
+                print("success")
+            } catch {
+                print("Error fetching property details: \(error)")
             }
         }
     }

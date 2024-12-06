@@ -102,12 +102,17 @@ struct PropertyDetailView: View {
             Image(systemName: "star.fill")
                 .foregroundStyle(.yellow)
 
-            Text(
-                model.rating.averageRating(),
-                format: .number.precision(.fractionLength(1))
-            )
-            .bold()
-            .font(.title3)
+            if let rating = model.rating {
+                Text(
+                    rating.averageRating(),
+                    format: .number.precision(.fractionLength(1))
+                )
+                .bold()
+                .font(.title3)
+            } else {
+                Text("N/A")
+                    .font(.title3)
+            }
         }
     }
 

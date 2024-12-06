@@ -5,7 +5,7 @@
 //  Created by Rui Barbosa on 04/12/2024.
 //
 
-struct City {
+struct City: Equatable, Hashable {
     let id: String
     let name: String
     let country: String

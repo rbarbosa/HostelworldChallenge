@@ -5,15 +5,15 @@
 //  Created by Rui Barbosa on 06/12/2024.
 //
 
-struct DetailedRating: Decodable {
-    let overall: String
-    let atmosphere: String
-    let cleanliness: String
-    let facilities: String
-    let staff: String
-    let security: String
-    let location: String
-    let valueForMoney: String
+struct DetailedRating: Decodable, Hashable, Equatable {
+    let overall: Int
+    let atmosphere: Int
+    let cleanliness: Int
+    let facilities: Int
+    let staff: Int
+    let security: Int
+    let location: Int
+    let valueForMoney: Int
 
     func averageRating() -> Double {
         let components = [
@@ -27,7 +27,7 @@ struct DetailedRating: Decodable {
             valueForMoney
         ]
 
-        let values = components.compactMap { Double($0) }
+        let values = components.map { Double($0) }
 
         let average = values.reduce(0, +) / Double(values.count)
         
@@ -41,14 +41,14 @@ struct DetailedRating: Decodable {
 extension DetailedRating {
     static var mock: Self {
         .init(
-            overall: "82",
-            atmosphere: "71",
-            cleanliness: "86",
-            facilities: "80",
-            staff: "95",
-            security: "87",
-            location: "77",
-            valueForMoney: "81"
+            overall: 82,
+            atmosphere: 71,
+            cleanliness: 86,
+            facilities: 80,
+            staff: 95,
+            security: 87,
+            location: 77,
+            valueForMoney: 81
         )
     }
 }

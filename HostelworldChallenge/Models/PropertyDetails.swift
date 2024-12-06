@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct PropertyDetails {
+struct PropertyDetails: Hashable, Equatable {
     let id: String
     let name: String
-    let rating: DetailedRating
+    let rating: DetailedRating?
     let description: String
     let address1: String
     let address2: String?
@@ -45,7 +45,7 @@ extension PropertyDetails: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(String.self, forKey: .id)
         name = try container.decode(String.self, forKey: .name)
-        rating = try container.decode(DetailedRating.self, forKey: .rating)
+        rating = try container.decodeIfPresent(DetailedRating.self, forKey: .rating)
         description = try container.decode(String.self, forKey: .description)
         address1 = try container.decode(String.self, forKey: .address1)
         address2 = try container.decodeIfPresent(String.self, forKey: .address2)

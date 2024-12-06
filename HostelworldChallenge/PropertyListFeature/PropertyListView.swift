@@ -11,11 +11,16 @@ struct PropertyListView: View {
 
     let viewModel: PropertyListViewModel
 
+    typealias Destination = PropertyListViewModel.Destination
+
     var body: some View {
         NavigationStack {
             content()
                 .navigationTitle("Gothenburg")
                 .navigationBarTitleDisplayMode(.inline)
+                .navigationDestination(item: viewModel.destinationBinding(for: Destination.details)) { model in
+                    PropertyDetailView(model: model)
+                }
         }
         .onAppear {
             viewModel.send(.onAppear)
@@ -64,6 +69,9 @@ struct PropertyListView: View {
                     image
                         .resizable()
                         .scaledToFill()
+                        .onTapGesture {
+                            viewModel.send(.onImageTap(property))
+                        }
 
                 case .failure(let error):
                     Label("There was an error", systemImage: "exclamationmark.icloud")

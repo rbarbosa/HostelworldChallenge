@@ -5,7 +5,7 @@
 //  Created by Rui Barbosa on 06/12/2024.
 //
 
-struct CheckIn: Decodable {
+struct CheckIn: Equatable, Hashable, Decodable {
     let startsAt: String
     let endsAt: String
 }
