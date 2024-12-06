@@ -14,6 +14,25 @@ struct DetailedRating {
     let security: String
     let location: String
     let valueForMoney: String
+
+    func averageRating() -> Double {
+        let components = [
+            overall,
+            atmosphere,
+            cleanliness,
+            facilities,
+            staff,
+            security,
+            location,
+            valueForMoney
+        ]
+
+        let values = components.compactMap { Double($0) }
+
+        let average = values.reduce(0, +) / Double(values.count)
+        
+        return (average * 10).rounded() / 100
+    }
 }
 
 // MARK: - Mocks

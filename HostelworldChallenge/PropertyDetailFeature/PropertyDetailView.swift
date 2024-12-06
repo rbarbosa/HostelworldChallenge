@@ -9,10 +9,14 @@ import SwiftUI
 
 struct PropertyDetailView: View {
 
+    let model: PropertyDetails
+
+
+
     var body: some View {
         NavigationStack {
             content()
-                .navigationTitle("STF Vandrarhem Stigbergsliden")
+                .navigationTitle(model.name)
                 .navigationBarTitleDisplayMode(.inline)
         }
     }
@@ -23,7 +27,7 @@ struct PropertyDetailView: View {
             VStack(alignment: .leading, spacing: 20) {
                 photosCarousel()
 
-                Text("Hostel")
+                Text(model.type.capitalized)
                     .font(.subheadline)
                     .foregroundStyle(.primary)
                     .opacity(0.6)
@@ -53,7 +57,7 @@ struct PropertyDetailView: View {
 
     private func header() -> some View {
         HStack(alignment: .lastTextBaseline) {
-            Text("STF Vandrarhem Stigbergsliden")
+            Text(model.name)
                 .bold()
                 .font(.title2)
                 .foregroundStyle(.primary)
@@ -64,22 +68,30 @@ struct PropertyDetailView: View {
             Image(systemName: "star.fill")
                 .foregroundStyle(.yellow)
 
-            Text("9.8")
-                .bold()
-                .font(.title3)
+            Text(
+                model.rating.averageRating(),
+                format: .number.precision(.fractionLength(1))
+            )
+            .bold()
+            .font(.title3)
         }
     }
 
     private func location() -> some View {
         VStack(alignment: .leading, spacing: 10) {
-            Label("Gothenburg - Sweden", systemImage: "mappin.and.ellipse")
+            Label("\(model.city.name) - \(model.city.country)", systemImage: "mappin.and.ellipse")
                 .bold()
                 .font(.caption)
                 .foregroundStyle(.primary)
                 .opacity(0.8)
 
-            Text("Stigbergsliden 10")
+            Text(model.address1)
                 .font(.caption2)
+
+            if let address2 = model.address2 {
+                Text(address2)
+                    .font(.caption2)
+            }
         }
     }
 
@@ -91,7 +103,7 @@ struct PropertyDetailView: View {
                 .foregroundStyle(.primary)
                 .opacity(0.8)
 
-            Text("Car: Drive towards 'centrum'. Follow the signs towards 'Fredrikshavn'. Chose exit 'Fiskhamnsmotet' and follow the sign to 'Majorna'. Turn left at the first traffic light to Karl Johansgatan and continue up the hill and down again, the street has now changed name to 'Stigbergsliden'. You find us on nr 10.")
+            Text(model.directions)
                 .font(.caption)
                 .foregroundStyle(.primary)
                 .opacity(0.6)
@@ -106,8 +118,8 @@ struct PropertyDetailView: View {
                 .foregroundStyle(.primary)
                 .opacity(0.8)
 
-            Text("Set in a listed building from the mid-1800s in the trendy area of Majorna/Linné. This traditional, eco-friendly hostel is a 12-minute tram ride from Gothenburg Central Station.")
-                .lineLimit(3)
+            Text(model.description)
+//                .lineLimit(3)
                 .font(.caption)
                 .lineSpacing(4)
                 .foregroundStyle(.primary)
@@ -119,5 +131,5 @@ struct PropertyDetailView: View {
 // MARK: - Previews
 
 #Preview {
-    PropertyDetailView()
+    PropertyDetailView(model: .mock)
 }
