@@ -11,8 +11,6 @@ struct PropertyDetailView: View {
 
     let model: PropertyDetails
 
-
-
     var body: some View {
         NavigationStack {
             content()
@@ -22,6 +20,7 @@ struct PropertyDetailView: View {
     }
 
     // MARK: - Subviews
+    
     private func content() -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
@@ -50,9 +49,43 @@ struct PropertyDetailView: View {
     }
 
     private func photosCarousel() -> some View {
-        Rectangle()
-            .fill(Color.red).opacity(0.9)
-            .frame(height: 200)
+        VStack {
+            TabView {
+                ForEach(model.images, id: \.self) { image in
+                    AsyncImage(url: URL(string: image)) { phase in
+                        switch phase {
+                        case .empty:
+                            Rectangle()
+                                .fill(Color.gray.opacity(0.3))
+                                .overlay {
+                                    ProgressView()
+                                }
+
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFill()
+
+                        case .failure(let error):
+                            Rectangle()
+                                .fill(Color.gray.opacity(0.3))
+                                .overlay {
+                                    Label("There was an error", systemImage: "exclamationmark.icloud")
+                                }
+
+                        @unknown default:
+                            EmptyView()
+                        }
+                    }
+                    // We need to set the height to apply the clip shape
+                    .frame(height: 200)
+                }
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+            }
+            .tabViewStyle(.page)
+        }
+        .frame(height: 200)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 
     private func header() -> some View {
