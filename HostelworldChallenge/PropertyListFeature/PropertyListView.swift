@@ -40,6 +40,7 @@ struct PropertyListView: View {
             .redacted(reason: .placeholder)
         } else {
             propertyList()
+                .padding(.bottom, 10)
         }
     }
 
