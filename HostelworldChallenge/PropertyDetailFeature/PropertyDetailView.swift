@@ -20,7 +20,7 @@ struct PropertyDetailView: View {
     }
 
     // MARK: - Subviews
-    
+
     private func content() -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
@@ -45,6 +45,7 @@ struct PropertyDetailView: View {
                 Spacer()
             }
         }
+        .scrollIndicators(.hidden)
         .padding(.horizontal)
     }
 
