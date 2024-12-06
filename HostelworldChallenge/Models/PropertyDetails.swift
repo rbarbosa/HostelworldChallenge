@@ -23,8 +23,56 @@ struct PropertyDetails {
     let policies: [String]
 }
 
+extension PropertyDetails: Decodable {
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case rating
+        case description
+        case address1
+        case address2
+        case directions
+        case city
+        case totalRatings
+        case images
+        case type
+        case checkIn
+        case policies
+    }
+
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
+        name = try container.decode(String.self, forKey: .name)
+        rating = try container.decode(DetailedRating.self, forKey: .rating)
+        description = try container.decode(String.self, forKey: .description)
+        address1 = try container.decode(String.self, forKey: .address1)
+        address2 = try container.decodeIfPresent(String.self, forKey: .address2)
+        directions = try container.decode(String.self, forKey: .directions)
+        city = try container.decode(City.self, forKey: .city)
+        totalRatings = try container.decode(String.self, forKey: .totalRatings)
+        type = try container.decode(String.self, forKey: .type)
+        checkIn = try container.decode(CheckIn.self, forKey: .checkIn)
+        policies = try container.decode([String].self, forKey: .policies)
+
+        let imageObjects = try container.decode([ImageObject].self, forKey: .images)
+        images = imageObjects.map {
+            ($0.prefix + $0.suffix).replacingOccurrences(of: "http://", with: "https://")
+        }
+    }
+}
+
+// Helper struct to decode the image objects
+
+private struct ImageObject: Decodable {
+    let prefix: String
+    let suffix: String
+}
+
 // MARK: - Mocks
 
+#if DEBUG
 extension PropertyDetails {
     static var mock: Self {
         .init(
@@ -89,3 +137,4 @@ Car: Drive towards 'centrum'. Follow the signs towards 'Fredrikshavn'. Chose exi
 to 'Majorna'. Turn left at the first traffic light to Karl Johansgatan and continue up the hill and down again, \
 the street has now changed name to 'Stigbergsliden'. You find us on nr 10.
 """
+#endif

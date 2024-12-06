@@ -9,4 +9,5 @@ import Foundation
 
 struct PropertiesRepository {
     var fetchCityProperties: (_ cityId: String) async throws -> CityPropertiesResponse
+    var fetchPropertyDetails: (_ propertyId: String) async throws -> PropertyDetails
 }

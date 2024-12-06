@@ -5,7 +5,7 @@
 //  Created by Rui Barbosa on 06/12/2024.
 //
 
-struct DetailedRating {
+struct DetailedRating: Decodable {
     let overall: String
     let atmosphere: String
     let cleanliness: String

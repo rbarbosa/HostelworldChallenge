@@ -15,6 +15,10 @@ extension PropertiesRepository {
             fetchCityProperties: { cityId in
                 let data = try await networking.fetch(query: .cityProperties(cityId: cityId))
                 return try makeCityPropertiesResponse(from: data)
+            },
+            fetchPropertyDetails: { propertyId in
+                let data = try await networking.fetch(query: .property(propertyId: propertyId))
+                return try makePropertyDetailsResponse(from: data)
             }
         )
     }
