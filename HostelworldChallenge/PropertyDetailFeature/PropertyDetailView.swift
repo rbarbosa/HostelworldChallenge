@@ -14,6 +14,7 @@ struct PropertyDetailView: View {
     var body: some View {
         NavigationStack {
             content()
+                .padding(.bottom, 10)
                 .navigationTitle(model.name)
                 .navigationBarTitleDisplayMode(.inline)
         }
@@ -111,7 +112,7 @@ struct PropertyDetailView: View {
                 .font(.title3)
             } else {
                 Text("N/A")
-                    .font(.title3)
+                    .font(.caption2)
             }
         }
     }
