@@ -20,6 +20,7 @@ struct PropertyListView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationDestination(item: viewModel.destinationBinding(for: Destination.details)) { model in
                     PropertyDetailView(model: model)
+                        .toolbarRole(.editor)
                 }
         }
         .onAppear {
