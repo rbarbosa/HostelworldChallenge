@@ -19,22 +19,28 @@ struct PropertyDetailView: View {
 
     // MARK: - Subviews
     private func content() -> some View {
-        VStack(alignment: .leading, spacing: 20) {
-            photosCarousel()
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                photosCarousel()
 
-            Text("Hostel")
-                .font(.subheadline)
-                .foregroundStyle(.primary).opacity(0.6)
+                Text("Hostel")
+                    .font(.subheadline)
+                    .foregroundStyle(.primary)
+                    .opacity(0.6)
 
-            header()
+                header()
+                Divider()
 
-            location()
+                location()
+                Divider()
 
-            directions()
+                directions()
+                Divider()
 
-            about()
+                about()
 
-            Spacer()
+                Spacer()
+            }
         }
         .padding(.horizontal)
     }
