@@ -31,14 +31,19 @@ struct PropertyListView: View {
 
     @ViewBuilder
     private func content() -> some View {
-        if viewModel.isLoading {
+        switch viewModel.fetching {
+        case .loading:
             VStack {
                 propertyCard(viewModel.emptyProperty)
 
                 Spacer()
             }
             .redacted(reason: .placeholder)
-        } else {
+
+        case .failed:
+            Text("Error")
+
+        case .idle:
             propertyList()
                 .padding(.bottom, 10)
         }
@@ -85,7 +90,7 @@ struct PropertyListView: View {
                 Rectangle()
                     .fill(Color.gray.opacity(0.3))
                     .overlay {
-                        if !viewModel.isLoading {
+                        if case .idle = viewModel.fetching {
                             ProgressView()
                         }
                     }
@@ -151,6 +156,15 @@ struct PropertyListView: View {
         viewModel: .init(
             initialState: .init(),
             repository: .shortLoading
+        )
+    )
+}
+
+#Preview("Failure") {
+    PropertyListView(
+        viewModel: .init(
+            initialState: .init(),
+            repository: .failure
         )
     )
 }

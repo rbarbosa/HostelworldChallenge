@@ -21,8 +21,14 @@ final class PropertyListViewModel {
     // MARK: - State
 
     struct State {
-        var destination: Destination? 
-        var isLoading: Bool = false
+        enum Fetching {
+            case idle
+            case loading
+            case failed(Error)
+        }
+
+        var destination: Destination?
+        var fetching: Fetching = .idle
         var properties: [Property] = []
         let emptyProperty: Property = .init(
             id: "",
@@ -91,16 +97,17 @@ final class PropertyListViewModel {
     // MARK: - Private methods
 
     private func fetchProperties() {
-        state.isLoading = true
+        state.fetching = .loading
 
         Task { @MainActor in
-            defer { state.isLoading = false }
 
             do {
                 let response = try await repository.fetchCityProperties("1530")
                 state.properties = response.properties
+                state.fetching = .idle
             } catch {
                 print("Error fetching properties: \(error)")
+                state.fetching = .failed(error)
             }
         }
     }
