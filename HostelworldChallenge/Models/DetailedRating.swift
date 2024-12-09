@@ -46,18 +46,7 @@ struct DetailedRating: Decodable, Hashable, Equatable {
     }
 
     func averageRating() -> Double {
-        let components = [
-            overall,
-            atmosphere,
-            cleanliness,
-            facilities,
-            staff,
-            security,
-            location,
-            valueForMoney
-        ]
-
-        let values = components.map { Double($0) }
+        let values = Category.allCases.map { Double(value(for: $0)) }
 
         let average = values.reduce(0, +) / Double(values.count)
         
