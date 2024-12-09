@@ -17,8 +17,12 @@ struct PropertyListView: View {
         NavigationStack {
             content()
                 .padding(.horizontal, 20)
+                .padding(.top, 20)
                 .navigationTitle("Gothenburg")
                 .navigationBarTitleDisplayMode(.inline)
+                .toolbarColorScheme(.dark, for: .navigationBar)
+                .toolbarBackground(.hostelworldRed, for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
                 .navigationDestination(item: viewModel.destinationBinding(for: Destination.details)) { model in
                     PropertyDetailView(model: model)
                         .toolbarRole(.editor)
@@ -195,6 +199,7 @@ struct PropertyListView: View {
                 .padding(.horizontal, 30)
         }
         .buttonStyle(.borderedProminent)
+        .tint(.hostelworldYellow)
     }
 }
 
@@ -204,7 +209,7 @@ struct PropertyListView: View {
     PropertyListView(
         viewModel: .init(
             initialState: .init(),
-            repository: .success
+            repository: .live
         )
     )
 }

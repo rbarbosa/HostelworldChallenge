@@ -17,6 +17,9 @@ struct PropertyDetailView: View {
                 .padding(.bottom, 10)
                 .navigationTitle(model.name)
                 .navigationBarTitleDisplayMode(.inline)
+                .toolbarColorScheme(.dark, for: .navigationBar)
+                .toolbarBackground(.hostelworldRed, for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
         }
     }
 
@@ -53,7 +56,7 @@ struct PropertyDetailView: View {
         }
         .scrollIndicators(.hidden)
         .padding(.horizontal)
-        .padding(.top, 10)
+        .padding(.top, 20)
     }
 
     private func photosCarousel() -> some View {
@@ -190,6 +193,7 @@ struct PropertyDetailView: View {
                         .frame(width: 120, alignment: .leading)
 
                     Gauge(value: Double(rating.value(for: category) / 10), in: 0...10) { }
+                        .tint(.hostelworldYellow)
 
                     Text(
                         rating.value(for: category) / 10,
