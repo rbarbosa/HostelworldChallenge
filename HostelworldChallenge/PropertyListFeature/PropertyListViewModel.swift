@@ -45,6 +45,7 @@ final class PropertyListViewModel {
     enum Action {
         case onAppear
         case onImageTap(Property)
+        case retryButtonTapped
     }
 
     // MARK: - Properties
@@ -69,6 +70,9 @@ final class PropertyListViewModel {
 
         case .onImageTap(let property):
             handlePropertySelection(property)
+
+        case .retryButtonTapped:
+            fetchProperties()
         }
     }
 

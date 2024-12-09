@@ -41,7 +41,13 @@ struct PropertyListView: View {
             .redacted(reason: .placeholder)
 
         case .failed:
-            Text("Error")
+            VStack {
+                Text("Something went wrong...")
+                    .font(.title3)
+                    .opacity(0.7)
+
+                retryButton()
+            }
 
         case .idle:
             propertyList()
@@ -137,6 +143,17 @@ struct PropertyListView: View {
                     .opacity(0.6)
             }
         }
+    }
+
+    private func retryButton() -> some View {
+        Button {
+            viewModel.send(.retryButtonTapped)
+        } label: {
+            Text("Retry")
+                .padding(.vertical, 4)
+                .padding(.horizontal, 30)
+        }
+        .buttonStyle(.borderedProminent)
     }
 }
 
