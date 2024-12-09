@@ -20,5 +20,8 @@ struct PropertyListViewModelTests {
         #expect(sut.state.isFetchingDetails == false)
         #expect(sut.state.destination == nil)
         #expect(sut.state.showAlertDetailsError == false)
+        #expect(sut.state.properties.isEmpty)
+        #expect(sut.state.fetching == .idle)
+        #expect(sut.state.fetchingDetails == .idle)
     }
 }

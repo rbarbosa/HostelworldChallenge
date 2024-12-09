@@ -24,7 +24,7 @@ final class PropertyListViewModel {
         enum Fetching {
             case idle
             case loading
-            case failed(Error)
+            case failed
         }
 
         var destination: Destination?
@@ -139,7 +139,7 @@ final class PropertyListViewModel {
                 state.properties = response.properties
                 state.fetching = .idle
             } catch {
-                state.fetching = .failed(error)
+                state.fetching = .failed
             }
         }
     }
