@@ -30,6 +30,7 @@ final class PropertyListViewModel {
         var destination: Destination?
         var fetching: Fetching = .idle
         var fetchingDetails: Fetching = .idle
+        var showAlertDetailsError: Bool = false
         var isFetchingDetails: Bool {
             if case .loading = fetchingDetails {
                 return true
@@ -51,6 +52,7 @@ final class PropertyListViewModel {
     // MARK: - Action
 
     enum Action {
+        case alertButtonOkTapped
         case onAppear
         case onImageTap(Property)
         case retryButtonTapped
@@ -73,6 +75,10 @@ final class PropertyListViewModel {
 
     func send(_ action: Action) {
         switch action {
+        case .alertButtonOkTapped:
+            state.fetchingDetails = .idle
+            state.showAlertDetailsError = false
+
         case .onAppear:
             fetchProperties()
 
@@ -84,7 +90,7 @@ final class PropertyListViewModel {
         }
     }
 
-    // MARK: - Binding helper
+    // MARK: - Binding helpers
 
     func destinationBinding<T>(
         for destinationType: @escaping (T) -> Destination
@@ -103,6 +109,13 @@ final class PropertyListViewModel {
                 guard let self else { return }
                 self.state.destination = newValue.map(destinationType)
             }
+        )
+    }
+
+    func binding<T>(_ keyPath: WritableKeyPath<State, T>) -> Binding<T> {
+        Binding(
+            get: { self.state[keyPath: keyPath] },
+            set: { self.state[keyPath: keyPath] = $0 }
         )
     }
 
@@ -132,7 +145,7 @@ final class PropertyListViewModel {
                 state.destination = .details(propertyDetails)
                 state.fetchingDetails = .idle
             } catch {
-                state.fetchingDetails = .failed(error)
+                state.showAlertDetailsError = true
             }
         }
     }

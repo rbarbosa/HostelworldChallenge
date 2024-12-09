@@ -24,6 +24,18 @@ struct PropertyListView: View {
                         .toolbarRole(.editor)
                 }
         }
+        .alert(
+            "Error",
+            isPresented: viewModel.binding(\.showAlertDetailsError),
+            actions: {
+                Button("OK") {
+                    viewModel.send(.alertButtonOkTapped)
+                }
+            },
+            message: {
+                Text("There was an error getting property details. Please try again.")
+            }
+        )
         .onAppear {
             viewModel.send(.onAppear)
         }
@@ -170,6 +182,18 @@ struct PropertyListView: View {
         viewModel: .init(
             initialState: .init(),
             repository: .success
+        )
+    )
+}
+
+#Preview("Error details") {
+    var repository: PropertiesRepository = .success
+    repository.fetchPropertyDetails = { _ in throw NetworkingError.invalidResponse }
+
+   return PropertyListView(
+        viewModel: .init(
+            initialState: .init(),
+            repository: repository
         )
     )
 }
