@@ -209,7 +209,7 @@ struct PropertyListView: View {
     PropertyListView(
         viewModel: .init(
             initialState: .init(),
-            repository: .live
+            repository: .success
         )
     )
 }
