@@ -18,7 +18,6 @@ struct PropertyListView: View {
             content()
                 .padding(.horizontal, 20)
                 .padding(.top, 20)
-                .navigationTitle("Gothenburg")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbarColorScheme(.dark, for: .navigationBar)
                 .toolbarBackground(.hostelworldRed, for: .navigationBar)
@@ -28,6 +27,11 @@ struct PropertyListView: View {
                         .toolbarRole(.editor)
                 }
                 .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        Text("Gothenburg")
+                            .foregroundColor(.white)
+                    }
+
                     ToolbarItem(placement: .topBarTrailing) {
                         Menu {
                             Button {
