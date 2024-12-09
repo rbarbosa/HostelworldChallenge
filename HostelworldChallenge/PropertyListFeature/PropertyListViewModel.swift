@@ -56,7 +56,8 @@ final class PropertyListViewModel {
         case onAppear
         case onImageTap(Property)
         case retryButtonTapped
-        case sortButtonTapped
+        case sortByRatingButtonTapped
+        case sortByTypeButtonTapped
     }
 
     // MARK: - Properties
@@ -89,8 +90,11 @@ final class PropertyListViewModel {
         case .retryButtonTapped:
             fetchProperties()
 
-        case .sortButtonTapped:
+        case .sortByRatingButtonTapped:
             sortPropertiesByRating()
+
+        case .sortByTypeButtonTapped:
+            sortPropertiesByType()
         }
     }
 
@@ -157,6 +161,13 @@ final class PropertyListViewModel {
     private func sortPropertiesByRating() {
         let sortedProperties = state.properties.sorted {
             $0.overallRating.overall ?? 0 > $1.overallRating.overall ?? 0
+        }
+        state.properties = sortedProperties
+    }
+
+    private func sortPropertiesByType() {
+        let sortedProperties = state.properties.sorted {
+            $0.type.localizedCaseInsensitiveCompare($1.type) == .orderedAscending
         }
         state.properties = sortedProperties
     }

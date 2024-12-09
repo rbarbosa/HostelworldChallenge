@@ -25,8 +25,17 @@ struct PropertyListView: View {
                 }
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            viewModel.send(.sortButtonTapped)
+                        Menu {
+                            Button {
+                                viewModel.send(.sortByRatingButtonTapped)
+                            } label: {
+                                Text("By rating")
+                            }
+                            Button {
+                                viewModel.send(.sortByTypeButtonTapped)
+                            } label: {
+                                Text("By type")
+                            }
                         } label: {
                             Image(systemName: "arrow.up.arrow.down")
                         }
