@@ -43,11 +43,17 @@ struct PropertyDetailView: View {
 
                 about()
 
+                if let detailRating = model.rating {
+                    Divider()
+
+                    detailedRating(detailRating)
+                }
                 Spacer()
             }
         }
         .scrollIndicators(.hidden)
         .padding(.horizontal)
+        .padding(.top, 10)
     }
 
     private func photosCarousel() -> some View {
@@ -164,6 +170,35 @@ struct PropertyDetailView: View {
                 .lineSpacing(4)
                 .foregroundStyle(.primary)
                 .opacity(0.6)
+        }
+    }
+
+    @ViewBuilder
+    private func detailedRating(_ rating: DetailedRating) -> some View {
+        VStack(alignment: .leading) {
+            Text("Rating")
+                .bold()
+                .font(.title3)
+                .foregroundStyle(.primary)
+                .opacity(0.8)
+
+            ForEach(DetailedRating.Category.allCases, id: \.self) { category in
+                HStack(spacing: 16.0) {
+                    Text(category.displayText)
+                        .font(.subheadline)
+                        .opacity(0.8)
+                        .frame(width: 120, alignment: .leading)
+
+                    Gauge(value: Double(rating.value(for: category) / 10), in: 0...10) { }
+
+                    Text(
+                        rating.value(for: category) / 10,
+                        format: .number.precision(.fractionLength(1))
+                    )
+                    .bold()
+                    .opacity(0.8)
+                }
+            }
         }
     }
 }

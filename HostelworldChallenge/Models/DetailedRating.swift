@@ -15,6 +15,36 @@ struct DetailedRating: Decodable, Hashable, Equatable {
     let location: Int
     let valueForMoney: Int
 
+    enum Category: String, CaseIterable {
+        case overall
+        case atmosphere
+        case cleanliness
+        case facilities
+        case staff
+        case security
+        case location
+        case valueForMoney
+
+        var displayText: String {
+            // This will capitalize first letter and add spaces between words
+            rawValue.prefix(1).capitalized +
+            rawValue.dropFirst().replacingOccurrences(of: "([A-Z])", with: " $1", options: .regularExpression)
+        }
+    }
+
+    func value(for category: Category) -> Int {
+        switch category {
+        case .overall: return overall
+        case .atmosphere: return atmosphere
+        case .cleanliness: return cleanliness
+        case .facilities: return facilities
+        case .staff: return staff
+        case .security: return security
+        case .location: return location
+        case .valueForMoney: return valueForMoney
+        }
+    }
+
     func averageRating() -> Double {
         let components = [
             overall,
