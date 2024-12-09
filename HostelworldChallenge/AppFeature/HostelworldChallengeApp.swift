@@ -8,6 +8,16 @@
 import SwiftUI
 
 @main
+struct AppLauncher {
+    static func main() {
+        if NSClassFromString("XCTestCase") != nil {
+            TestApp.main()
+        } else {
+            HostelworldChallengeApp.main()
+        }
+    }
+}
+
 struct HostelworldChallengeApp: App {
 
     init () {
@@ -16,7 +26,22 @@ struct HostelworldChallengeApp: App {
 
     var body: some Scene {
         WindowGroup {
-            PropertyListView(viewModel: .init(initialState: .init(properties: []), repository: .live))
+            PropertyListView(
+                viewModel: .init(
+                    initialState: .init(),
+                    repository: .live
+                )
+            )
+        }
+    }
+}
+
+// MARK: - TestView
+
+struct TestApp: App {
+    var body: some Scene {
+        WindowGroup {
+            Text("Running Unit Tests!")
         }
     }
 }
