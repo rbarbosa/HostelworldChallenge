@@ -16,6 +16,7 @@ struct PropertyListView: View {
     var body: some View {
         NavigationStack {
             content()
+                .padding(.horizontal, 20)
                 .navigationTitle("Gothenburg")
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationDestination(item: viewModel.destinationBinding(for: Destination.details)) { model in
@@ -36,7 +37,6 @@ struct PropertyListView: View {
 
                 Spacer()
             }
-            .padding(.horizontal, 10)
             .redacted(reason: .placeholder)
         } else {
             propertyList()
@@ -48,59 +48,89 @@ struct PropertyListView: View {
         ScrollView {
             LazyVStack(spacing: 12) {
                 ForEach(viewModel.properties) { property in
+
                     propertyCard(property)
-                        .padding(.horizontal, 10)
+                        .padding(.bottom, 10)
+
+                    Divider()
                 }
             }
         }
+        .scrollIndicators(.hidden)
     }
 
     private func propertyCard(_ property: Property) -> some View {
-        HStack(alignment: .top, spacing: 10) {
-            AsyncImage(url: URL(string: property.images.first ?? "")) { phase in
-                switch phase {
-                case .empty:
-                    if viewModel.isLoading {
-                        Color.gray
-                            .opacity(0.4)
-                    } else {
-                        ProgressView()
+        VStack(alignment: .leading, spacing: .zero) {
+            image(for: property)
+
+            Text(property.name)
+                .font(.headline)
+                .opacity(0.7)
+                .padding(.top, 16)
+
+            rating(for: property)
+                .padding(.top, 8)
+
+            Text(property.type.capitalized)
+                .font(.caption)
+                .opacity(0.7)
+                .padding(.top, 8)
+        }
+    }
+
+    private func image(for property: Property) -> some View {
+        AsyncImage(url: URL(string: property.images.first ?? "")) { phase in
+            switch phase {
+            case .empty:
+                Rectangle()
+                    .fill(Color.gray.opacity(0.3))
+                    .overlay {
+                        if !viewModel.isLoading {
+                            ProgressView()
+                        }
                     }
 
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFill()
-                        .onTapGesture {
-                            viewModel.send(.onImageTap(property))
-                        }
+            case .success(let image):
+                image
+                    .resizable()
+                    .scaledToFill()
+                    .onTapGesture {
+                        viewModel.send(.onImageTap(property))
+                    }
 
-                case .failure(let error):
-                    Label("There was an error", systemImage: "exclamationmark.icloud")
+            case .failure(let error):
+                Label("There was an error", systemImage: "exclamationmark.icloud")
 
-                @unknown default:
-                    EmptyView()
-                }
+            @unknown default:
+                EmptyView()
             }
-            .frame(width: 100, height: 100)
-            .clipShape(RoundedRectangle(cornerRadius: 6))
+        }
+        .frame(height: 150)
+        .clipShape(RoundedRectangle(cornerRadius: 6))
+    }
 
-            VStack(alignment: .leading) {
-                Text(property.name)
-                    .font(.headline)
-                    .foregroundStyle(.primary)
-                    .opacity(0.8)
-                    .padding(.bottom, 5)
+    private func rating(for property: Property) -> some View {
+        HStack {
+            Image(systemName: "star.fill")
+                .foregroundStyle(.yellow)
 
-                Label("\(property.overallRating.overall)", systemImage: "star")
-                    .padding(.bottom, 5)
+            if let overall = property.overallRating.overall {
+                Text(
+                    Double(overall / 10),
+                    format: .number.precision(.fractionLength(1))
+                )
+                .fontWeight(.semibold)
+                .opacity(0.8)
+            } else {
+                Text("NA")
+                    .font(.caption)
+            }
 
-                Text(property.type)
-                    .font(.caption2)
-                    .foregroundStyle(.primary)
+            if let _ = property.overallRating.overall {
+                Text("(\(property.overallRating.numberOfRatings))")
+                    .font(.caption)
                     .opacity(0.6)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 }
