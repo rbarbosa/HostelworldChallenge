@@ -68,6 +68,11 @@ struct PropertyListView: View {
                 .overlay {
                     if viewModel.isFetchingDetails {
                         ProgressView()
+                            .padding()
+                            .background(.primary.opacity(0.25))
+                            .controlSize(.extraLarge)
+                            .tint(.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 6.0))
                     }
                 }
         }
