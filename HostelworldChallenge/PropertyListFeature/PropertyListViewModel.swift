@@ -56,6 +56,7 @@ final class PropertyListViewModel {
         case onAppear
         case onImageTap(Property)
         case retryButtonTapped
+        case sortButtonTapped
     }
 
     // MARK: - Properties
@@ -87,6 +88,9 @@ final class PropertyListViewModel {
 
         case .retryButtonTapped:
             fetchProperties()
+
+        case .sortButtonTapped:
+            sortPropertiesByRating()
         }
     }
 
@@ -148,6 +152,13 @@ final class PropertyListViewModel {
                 state.showAlertDetailsError = true
             }
         }
+    }
+
+    private func sortPropertiesByRating() {
+        let sortedProperties = state.properties.sorted {
+            $0.overallRating.overall ?? 0 > $1.overallRating.overall ?? 0
+        }
+        state.properties = sortedProperties
     }
 }
 

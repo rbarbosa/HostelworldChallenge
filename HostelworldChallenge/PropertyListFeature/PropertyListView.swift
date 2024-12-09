@@ -23,6 +23,15 @@ struct PropertyListView: View {
                     PropertyDetailView(model: model)
                         .toolbarRole(.editor)
                 }
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            viewModel.send(.sortButtonTapped)
+                        } label: {
+                            Image(systemName: "arrow.up.arrow.down")
+                        }
+                    }
+                }
         }
         .alert(
             "Error",
