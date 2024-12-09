@@ -29,6 +29,14 @@ final class PropertyListViewModel {
 
         var destination: Destination?
         var fetching: Fetching = .idle
+        var fetchingDetails: Fetching = .idle
+        var isFetchingDetails: Bool {
+            if case .loading = fetchingDetails {
+                return true
+            }
+
+            return false
+        }
         var properties: [Property] = []
         let emptyProperty: Property = .init(
             id: "",
@@ -110,20 +118,21 @@ final class PropertyListViewModel {
                 state.properties = response.properties
                 state.fetching = .idle
             } catch {
-                print("Error fetching properties: \(error)")
                 state.fetching = .failed(error)
             }
         }
     }
 
     private func handlePropertySelection(_ property: Property) {
+        state.fetchingDetails = .loading
+
         Task { @MainActor in
             do {
                 let propertyDetails = try await repository.fetchPropertyDetails(property.id)
                 state.destination = .details(propertyDetails)
-                print("success")
+                state.fetchingDetails = .idle
             } catch {
-                print("Error fetching property details: \(error)")
+                state.fetchingDetails = .failed(error)
             }
         }
     }

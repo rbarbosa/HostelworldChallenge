@@ -51,7 +51,13 @@ struct PropertyListView: View {
 
         case .idle:
             propertyList()
+                .opacity(viewModel.isFetchingDetails ? 0.5 : 1.0)
                 .padding(.bottom, 10)
+                .overlay {
+                    if viewModel.isFetchingDetails {
+                        ProgressView()
+                    }
+                }
         }
     }
 
