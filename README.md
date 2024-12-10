@@ -73,3 +73,41 @@ I've started using it, and I've found, once again, this framework offers enhance
 
 ## Setup and Installation
 After installing the Xcode, the process should be seamlessly, and the app should run without problems.
+
+## Usage
+This simple app provides properties available in the city of Gothenburg. 
+After the initial loading of the properties, they are presented in a list.
+On the navigation bar, there's a button for a sort menu. 
+There are two options:
+- sort by rating (higher rating first)
+- sort by type (alphabetically)
+Tapping on an option will sort the properties accordingly.
+
+Tapping on an image, the app fetches the property details and presents a new view with the detailed information.
+
+## Testing
+This project leverages the new Swift Testing framework, introduced in recent Xcode versions, to ensure code reliability and functionality. The testing strategy focuses primarily on the models and view models, which form the core of the application's business logic.
+
+## Future Improvements
+While the current version of the app meets the assignment requirements and provides a functional user experience, there are several areas identified for future enhancement:
+
+**User Interface and Experience**
+- Layout and Design Enhancements:
+  - Improve overall visual design for a more polished look
+  - Optimize layouts for different device sizes and orientations
+  - Localization
+- Animation Improvements:
+  - Enhance existing animations for smoother transitions
+  - Add subtle animations to improve user feedback and engagement
+
+**Functionality**
+- Search and filter: Add functionality to search properties and filter for type, ranking, etc
+
+**Caching**
+- Caching: Implement a caching mechanism to reduce API calls (particularly for images)
+
+**Accessibility**
+- Dynamic Type: Ensure all text elements properly support Dynamic Type for improved readability
+
+
+
