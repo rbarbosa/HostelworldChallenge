@@ -133,7 +133,6 @@ final class PropertyListViewModel {
         state.fetching = .loading
 
         Task { @MainActor in
-
             do {
                 let response = try await repository.fetchCityProperties("1530")
                 state.properties = response.properties

@@ -23,9 +23,11 @@ struct PropertyDetails: Hashable, Equatable {
     let policies: [String]
 }
 
+// MARK: - Decodable conformance
+
 extension PropertyDetails: Decodable {
 
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case id
         case name
         case rating

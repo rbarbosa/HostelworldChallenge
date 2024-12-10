@@ -20,7 +20,7 @@ struct Property: Identifiable {
 
 extension Property: Decodable {
 
-    enum CodingKeys: CodingKey {
+    private enum CodingKeys: CodingKey {
         case id
         case name
         case city

@@ -77,7 +77,7 @@ struct PropertyDetailView: View {
                                 .resizable()
                                 .scaledToFill()
 
-                        case .failure(let error):
+                        case .failure:
                             Rectangle()
                                 .fill(Color.gray.opacity(0.3))
                                 .overlay {
@@ -168,7 +168,6 @@ struct PropertyDetailView: View {
                 .opacity(0.8)
 
             Text(model.description)
-//                .lineLimit(3)
                 .font(.caption)
                 .lineSpacing(4)
                 .foregroundStyle(.primary)

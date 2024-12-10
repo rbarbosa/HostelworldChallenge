@@ -158,7 +158,7 @@ struct PropertyListView: View {
                         viewModel.send(.onImageTap(property))
                     }
 
-            case .failure(let error):
+            case .failure:
                 Label("There was an error", systemImage: "exclamationmark.icloud")
 
             @unknown default:

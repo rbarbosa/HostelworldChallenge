@@ -10,6 +10,8 @@ struct CheckIn: Equatable, Hashable {
     let endsAt: String
 }
 
+// MARK: - Decodable conformance
+
 extension CheckIn: Decodable {
     private enum CodingKeys: String, CodingKey {
         case startsAt
@@ -47,6 +49,7 @@ extension CheckIn: Decodable {
         }
     }
 }
+
 // MARK: - Mocks
 
 #if DEBUG
