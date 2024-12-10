@@ -21,5 +21,9 @@ extension Rating {
     static var mock: Self {
         .init(numberOfRatings: 400, overall: 82)
     }
+
+    static var mock2: Self {
+        .init(numberOfRatings: 350, overall: 93)
+    }
 }
 #endif

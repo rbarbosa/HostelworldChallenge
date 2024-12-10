@@ -66,6 +66,17 @@ extension Property {
             images: ["https://ucd.hwstatic.com/propertyimages/3/32849/7.jpg"]
         )
     }
+
+    static var mock2: Property {
+        Property(
+            id: "40919",
+            name: "Backpackers Göteborg",
+            city: .mock,
+            type: "Apartment",
+            overallRating: .mock2,
+            images: ["https://ucd.hwstatic.com/propertyimages/4/40919/5.jpg"]
+        )
+    }
 }
 #endif
 
